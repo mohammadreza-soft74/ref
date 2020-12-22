@@ -15,8 +15,10 @@ class CreateApplesTable extends Migration
     {
         Schema::create('apples', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('identity');
             $table->integer('green');
             $table->integer('red');
+            $table->integer('apple2');
             $table->integer('tonnage')->nullable()->default(0);
             $table->string('description')->nullable();
 

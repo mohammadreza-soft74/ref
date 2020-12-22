@@ -20,20 +20,28 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 
-//Route::apiResource('users','UserController');//->middleware('auth:api');
 
 Route::group([
-    'namespace' => 'Auth',
+    'namespace' => 'User',
     'middleware' => ['cors']
 ], function (){
 
-    Route::post('auth/login', 'LoginController@login');
+    Route::apiResource('users','UserController');//->middleware('auth:api');
 
 });
 
+//Route::group([
+//    'namespace' => 'Auth',
+//    'middleware' => ['adminAuth']
+//], function (){
+//
+//    Route::post('auth/login', 'LoginController@login');
+//
+//});
+
 Route::group([
     'namespace' => 'Report',
-    'middleware' => ['cors']
+    'middleware' => ['cors', 'auth:api']
 ], function (){
 
     Route::get('report/baskets', 'BasketController@basketReport');
@@ -45,7 +53,7 @@ Route::group([
 
 Route::group([
     'namespace' => 'Service',
-    'middleware' => ['cors']
+    'middleware' => ['cors', 'auth:api']
 ], function (){
 
     Route::apiResource('services', 'ServiceController');
@@ -59,7 +67,7 @@ Route::group([
 
 Route::group([
     'namespace' => 'Customer',
-    'middleware' => 'cors'
+    'middleware' => ['cors']
 ], function (){
 
     Route::apiResource('customers', 'CustomerController');
@@ -69,7 +77,7 @@ Route::group([
 
 Route::group([
     'namespace' => 'Contract',
-    'middleware' => 'cors'
+    'middleware' => ['cors', 'auth:api']
 ], function (){
 
     Route::apiResource('contracts', 'ContractController');
@@ -78,7 +86,7 @@ Route::group([
 
 Route::group([
     'namespace' => 'Fruit',
-    'middleware' => 'cors'
+    'middleware' => ['cors', 'auth:api']
 ], function (){
 
     Route::apiResource('fruits', 'FruitController');
@@ -87,7 +95,7 @@ Route::group([
 
 Route::group([
     'namespace' => 'Trouble',
-    'middleware' => 'cors'
+    'middleware' => ['cors', 'auth:api']
 ], function (){
 
     Route::apiResource('troubles', 'TroubleController');
@@ -96,7 +104,7 @@ Route::group([
 
 Route::group([
     'namespace' => 'Apple',
-    'middleware' => 'cors'
+    'middleware' => ['cors', 'auth:api']
 ], function (){
 
     Route::apiResource('apples', 'AppleController');
@@ -105,7 +113,7 @@ Route::group([
 
 Route::group([
     'namespace' => 'Basket',
-    'middleware' => 'cors'
+    'middleware' => ['cors', 'auth:api']
 ], function (){
 
     Route::apiResource('basket', 'BasketController');
@@ -125,7 +133,7 @@ Route::group([
 
 Route::group([
     'namespace' => 'Sabad',
-    'middleware' => 'cors'
+    'middleware' => ['cors', 'auth:api']
 ], function (){
 
     Route::apiResource('sabads', 'SabadController');
@@ -139,7 +147,7 @@ Route::group([
 Route::group([
     'prefix' => 'auth',
     'namespace' => 'Auth',
-    'middleware' => 'cors'
+    'middleware' => ['adminAuth']
 ], function() {
 
     Route::post('login','LoginController@login');
@@ -147,6 +155,14 @@ Route::group([
 
 });
 
+//Route::get('hh', function (){
+//   $user = \App\Models\Customer::find(2);
+//    $user->notify(new \App\Notifications\Reminder());
+//});
+
+Route::fallback(function (){
+   return response('تلاش شما به جایی نمیرسد. متاسفیم', 404);
+});
 
 //Route::group([
 //

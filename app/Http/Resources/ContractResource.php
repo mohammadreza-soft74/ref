@@ -27,6 +27,8 @@ class ContractResource extends JsonResource
             'tonnageOut' => $this->tonnageOut,
             'greenIn' => $this->greenIn,
             'greenOut' => $this->greenOut,
+            'apple2In' => $this->appleTwoIn,
+            'apple2Out' => $this->appleTwoOut,
             'redIn' => $this->redIn,
             'redOut' => $this->redOut,
 

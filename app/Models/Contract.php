@@ -22,7 +22,9 @@ class Contract extends Model
         'greenOut',
         'redIn',
         'redOut',
-        'tonnageIn'
+        'tonnageIn',
+        'appleTwoIn',
+        'appleTwoOut',
     ];
 
     public function customer()
@@ -44,7 +46,8 @@ class Contract extends Model
     public function getAppleInAttribute()
     {
         return $this->apples ? $this->apples()->where('entry', true)->sum('green')+
-            $this->apples()->where('entry', true)->sum('red'):0;
+                               $this->apples()->where('entry', true)->sum('red')+
+                               $this->apples()->where('entry', true)->sum('apple2'):0;
     }
 
 
@@ -52,7 +55,8 @@ class Contract extends Model
     public function getAppleOutAttribute()
     {
       return  $this->apples ? $this->apples()->where('entry', false)->sum('green')+
-            $this->apples()->where('entry', false)->sum('red'): 0;
+              $this->apples()->where('entry', false)->sum('red')+
+              $this->apples()->where('entry', false)->sum('apple2'): 0;
     }
 
     //get all in green apple
@@ -96,4 +100,17 @@ class Contract extends Model
 
     }
 
+    //get all in 2 apple
+    public function getAppleTwoInAttribute()
+    {
+        return $this->apples ? $this->apples()->where('entry', true)->sum('apple2') : 0;
+
+    }
+
+    //get all out 2 apple
+    public function getAppleTwoOutAttribute()
+    {
+        return $this->apples ? $this->apples()->where('entry', false)->sum('apple2') : 0;
+
+    }
 }

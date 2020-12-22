@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use http\Exception;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
 use Throwable;
@@ -61,6 +62,18 @@ class Handler extends ExceptionHandler
                 return response([
                     'errors' => $exception->errors()
                 ], 422);
+            }
+
+
+            if ($exception instanceof AuthenticationException) {
+                $exception = $this->unauthenticated($request, $exception);
+                if ($exception->getStatusCode() == 401)
+                {
+                    return response([
+                    'message' => 'کاربر احراز هویت نشده'
+                ], 401);
+                }
+//
             }
             $code = method_exists($exception, 'getStatusCode') ? $exception->getStatusCode() : 500;
 

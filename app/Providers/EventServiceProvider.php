@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Events\AdminAuthCheck;
 use App\Events\RegisterUser;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -21,7 +22,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         RegisterUser::class => [
             'App\Listeners\SendVerificationCode'
-        ]
+        ],
+
+
     ];
 
     /**

@@ -15,6 +15,7 @@ class LoginController extends Controller
 
     use TokenTrait;
 
+
     public function login(Request $request)
     {
 

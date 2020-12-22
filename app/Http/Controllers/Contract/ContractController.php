@@ -12,6 +12,7 @@ use App\Models\Contract;
 use App\Models\Customer;
 use App\Models\Fruit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
 class ContractController extends Controller
@@ -84,7 +85,32 @@ class ContractController extends Controller
      */
     public function update(Request $request, Contract $contract)
     {
-        //
+
+        $fruit = Fruit::find($request->fruitId);
+
+
+        $customer = Customer::find($request->customerId);
+
+        if (is_null($customer) || is_null($fruit))
+            throw ValidationException::withMessages([
+                'customer/fruit' => 'ورودی های وارد شده صحیح نمی باشد'
+            ]);
+
+
+        $contract->update( $request->only(
+            'tonnage',
+            'code',
+            'day',
+            'currencyPerKg',
+            'apple'
+        ));
+
+
+        $contract->customer()->associate($customer);
+        $contract->fruit()->associate($fruit)->save();
+
+        return response('قرارداد شما با موفقیت به روز شد', 201);
+
     }
 
     /**

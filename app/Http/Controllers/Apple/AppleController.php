@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Apple;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Apple\AppleRequest;
 use App\Http\Resources\ContractResource;
 use App\Models\Apple;
 use App\Models\Contract;
@@ -28,11 +29,12 @@ class AppleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AppleRequest $request)
     {
+
         $contract = Contract::find($request->contractId);
 
-        $apple =  new Apple($request->only('green', 'red', 'tonnage', 'entry', 'description'));
+        $apple =  new Apple($request->only('identity','green', 'red', 'apple2', 'tonnage', 'entry', 'description'));
 
         if (!$request->entry)
         {
@@ -63,6 +65,17 @@ class AppleController extends Controller
                 throw ValidationException::withMessages(
                     [
                         'apple'=> 'سیب قرمز خروجی از کل بیشتر است'
+                    ]
+                );
+            }
+
+            if ($contract->apples()->whereEntry(true)->sum('apple2') -
+                $contract->apples()->whereEntry(false)->sum('apple2') -
+                $request->apple2 < 0 )
+            {
+                throw ValidationException::withMessages(
+                    [
+                        'apple'=> 'سیب درجه2 خروجی از کل بیشتر است'
                     ]
                 );
             }

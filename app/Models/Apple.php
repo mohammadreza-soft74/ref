@@ -7,8 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Apple extends Model
 {
     protected $fillable = [
+        'identity',
         'green',
         'red',
+        'apple2',
         'entry',
         'description',
         'tonnage'

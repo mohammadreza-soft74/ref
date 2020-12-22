@@ -21,6 +21,7 @@ class AppleReportResource extends JsonResource
             'tonnage' => $this-> tonnage,
             'code' => $this-> code,
             'day' => $this-> day,
+            //'apples' => new AppleResourceCollection($this->apples),
             'currenyPerKg' => $this-> currencyPerKg,
             'appleIn' => $this-> appleIn,
             'appleOut' => $this-> appleOut,

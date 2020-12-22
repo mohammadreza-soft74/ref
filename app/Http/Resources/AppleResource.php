@@ -16,10 +16,12 @@ class AppleResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'identity' => $this->identity,
             'green' => $this->green,
             'red' => $this->red,
+            'apple2' => $this->apple2,
             'tonnage' => $this->tonnage,
-            'descrition' => $this->description,
+            'description' => $this->description,
             'type' => $this->entry,
             'wage' => ($this->green + $this->red) * 10 * $this->contract->currencyPerKg,
             'troubles' => new TroubleResourceCollection($this->troubles),

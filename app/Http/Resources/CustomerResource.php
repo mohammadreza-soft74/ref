@@ -24,9 +24,9 @@ class CustomerResource extends JsonResource
             'phone' => $this->phone,
             'address' => $this->address,
             'date' => $this->created_at,
-            'contracts' => new ContractResourceCollection($this->contracts),
-            'basketContracts' => new BasketContractResourceCollection($this->basketContracts),
-            'serviceContracts' => new ServiceContractResourceCollection($this->serviceContracts),
+            //'contracts' => new ContractResourceCollection($this->contracts),
+            //'basketContracts' => new BasketContractResourceCollection($this->basketContracts),
+            //'serviceContracts' => new ServiceContractResourceCollection($this->serviceContracts),
 //
 
         ];

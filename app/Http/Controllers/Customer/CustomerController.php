@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CustomerRequest;
+use App\Http\Resources\Customer\CustomerWithContractResoure;
 use App\Http\Resources\CustomerResource;
 use App\Http\Resources\CustomerResourceCollection;
 use App\Models\Customer;
@@ -31,7 +32,24 @@ class CustomerController extends Controller
             $to = $date2->formatGregorian('Y-m-d');
 
 
-            return new CustomerResourceCollection(Customer::whereBetween('created_at', [$from, $to])->get());
+            return new CustomerResourceCollection(Customer::whereBetween('created_at', [$from, $to])->paginate(\request('size') ? \request('size') : 30));
+
+        }
+
+        if (\request('lastName')){
+
+            $lastName = \request('lastName');
+
+            $date = verta(Carbon::now()->format('Y-m-d'));
+            $date->month(1);
+            $date->day(1);
+            $from = $date->formatGregorian('Y-m-d');
+
+            $date2 = $date->addDays(365);
+            $to = $date2->formatGregorian('Y-m-d');
+
+
+            return new CustomerResourceCollection(Customer::whereBetween('created_at', [$from, $to])->where('lastName' ,'LIKE', '%' . $lastName . '%')->paginate(\request('size') ? \request('size') : 30));
 
         }
 
@@ -46,7 +64,7 @@ class CustomerController extends Controller
             $to = $date2->formatGregorian('Y-m-d');
 
 
-            return new CustomerResourceCollection(Customer::whereBetween('created_at', [$from, $to])->get());
+            return new CustomerResourceCollection(Customer::whereBetween('created_at', [$from, $to])->paginate(\request('size') ? \request('size'):30));
 
         }
 
@@ -81,7 +99,7 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer)
     {
-        return new CustomerResource($customer);
+        return new CustomerWithContractResoure($customer);
     }
 
     /**
